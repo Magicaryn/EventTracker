@@ -2,6 +2,8 @@ const path = require('path');
 const express = require('express');
 const exphbs = require('express-handlebars');
 const routes = require('./controllers');
+const local = require('./strategies/local');
+
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -9,6 +11,16 @@ const sequelize = require('./config/connection');
 const hbs = exphbs.create({});
 
 app.use(routes);
+
+app.use(require('express-session')
+  ({
+    secret : 'very special secret',
+    resave : true,
+    saveUninitialized : true
+  }));
+
+app.use(require('passport').initialize());
+app.use(require('passport').session());
 
 
 app.engine('handlebars', hbs.engine);
