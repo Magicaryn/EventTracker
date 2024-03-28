@@ -3,6 +3,11 @@ const { User, Writeup, Comment } = require('../../models');
 const passport = require('passport');
 const local = require('../../strategies/local');
 
+
+router.get('/signup', async (req, res) => {
+    res.render('homepage');
+});
+
 //login route that redirects to employee or manager page based on user.position
 router.post('/login', passport.authenticate('local'), (req, res) => {
     if (req.user.position === 1) {
@@ -18,10 +23,15 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 router.post('/signup', async (req, res) => {
     try {
         const userData = await User.create(req.body);
-        req.login(userData, (err) => {
-            if (err) throw err;
-            res.status(200).json(userData);
-        });
+
+        // req.login(userData, (err) => {
+        //     if (err) {
+        //         res.status(500).json(err);
+        //         return;
+        //     }
+        //     res.status(200).json(userData);
+        // });
+        
     } catch (err) {
         res.status(400).json(err);
     }
@@ -55,19 +65,5 @@ router.post('/writeup', async (req, res) => {
         res.status(400).json(err);
     }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router;
