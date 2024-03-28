@@ -5,15 +5,16 @@ const loginFormHandler = async (event) => {
     const username = document.querySelector('#username-login').value.trim();
     const password = document.querySelector('#password-login').value.trim();
 
+
     if (username && password) {
         // Send a POST request to the API endpoint
         const login = await fetch('/api/users/login', {
             method: 'POST',
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ username, password }), 
             headers: { 'Content-Type': 'application/json' },
         });
     }
-} 
+}
 
 const signupFormHandler = async (event) => {
     event.preventDefault();
@@ -31,7 +32,16 @@ const signupFormHandler = async (event) => {
             body: JSON.stringify({ username, email, password, position }),
             headers: { 'Content-Type': 'application/json' },
         });
+
+        if (signup.ok) {
+            alert('Account created!.');
+            document.location.replace('/login');
+        }
+        else {
+            alert('Failed to sign up.');
+        }
     }
+  
 
     
 }
