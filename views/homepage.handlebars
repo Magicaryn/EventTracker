@@ -1,1 +1,41 @@
 <p>Placeholder</p>
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventTracker</title>
+    {{!-- <link rel="stylesheet" herf=""/css/style.css> --}}
+</head>
+
+<body>
+    <header>
+        <h1>Employee Event Tracker</h1>
+    </header>
+
+    <nav>
+        <a herf="/">Home</a>
+        {{#if loggedIn}}
+        <button id="logout">Logout</button>
+        {{else}}
+        <a href="/login">Login</a>
+        {{/if}}
+    </nav>
+
+    <main>
+        <aside>
+            {{!-- links in aside maybe? work in progress --}}
+        <ul>
+            <li>Counseling</li>
+            <li>Appreciation</li>
+            <li>Indiviual employee records</li>
+            <li>Policy Documents</li>
+        </ul>    
+        </aside>
+        <div>
+            {{{body}}}
+        </div>
+
+    </main>
+</body>
