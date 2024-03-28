@@ -4,10 +4,6 @@ const passport = require('passport');
 const local = require('../../strategies/local');
 
 
-router.get('/signup', async (req, res) => {
-    res.render('homepage');
-});
-
 router.get('/check', async (req, res) => {
     try {
         const users = await User.findAll();
@@ -22,7 +18,7 @@ router.post('/login', passport.authenticate('local'), async (req, res) => {
     const user = req.user;
     if (user) {
         const userData = await User.findOne({ where: { username: user.username } });
-        if (userData.position == 1) { // Fix: Use strict equality (===) instead of loose equality (==)
+        if (userData.position == 1) { 
             res.redirect('/employee');
         } else if (userData.position == 2) {
             res.redirect('/manager');
@@ -30,7 +26,7 @@ router.post('/login', passport.authenticate('local'), async (req, res) => {
             res.status(401).json({ error: 'Unauthorized', position: userData.position });
         }
     } else {
-        res.redirect('/');
+        res.redirect('/dashboard');
     }
 });
 
@@ -46,12 +42,18 @@ router.post('/signup', async (req, res) => {
     }
 });
 
+//route for logging out the user
 router.post('/logout', (req, res) => {
-    if (req.user) {
-        req.logout();
-        res.redirect('/');
-    } else {
-        res.status(404).end();
+    try {
+        if (req.user) {
+            req.logout(() => {
+                res.redirect('/');
+            });
+        } else {
+            res.status(404).end();
+        }
+    } catch (err) {
+        res.status(500).json(err);
     }
 });
 
