@@ -13,6 +13,11 @@ const loginFormHandler = async (event) => {
             body: JSON.stringify({ username, password }), 
             headers: { 'Content-Type': 'application/json' },
         });
+
+        if (login.ok) {
+            alert('Logged in!');
+            document.location.replace('/dashboard');
+        }
     }
 }
 
