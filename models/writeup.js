@@ -45,7 +45,7 @@ Writeup.init(
         timestamps: false,
         freezeTableName: true,
         underscored: true,
-        modelName: 'warning',
+        modelName: 'writeup',
     });
 
 module.exports = Writeup;
