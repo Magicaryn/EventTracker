@@ -17,9 +17,13 @@
       </div>
       <nav>
         <a href="/">Home</a>
-        <a href = "/api/users/signup">Sign Up</a>
-        <a href="/api/users/login">Login</a>
-        <a href="/api/users/logout">Logout</a>
+        <a href = "/signup">Sign Up</a>
+        <!-- Placeholder property {{#if !loggedIn}} -->
+        <a href="/login">Login</a>
+        <!-- Placeholder property {{/if}} -->
+        <!-- Placeholder property  {{#if loggedIn}} -->
+        <a href="/logout">Logout</a>
+       <!-- Placeholder property {{/if}} -->
       </nav>
     </header>
 
