@@ -1,3 +1,4 @@
+//function that runs when the logout button is clicked
 const logout = async () => {
     const logout = await fetch('/api/users/logout', {
       method: 'POST',

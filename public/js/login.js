@@ -13,10 +13,13 @@ const loginFormHandler = async (event) => {
             body: JSON.stringify({ username, password }), 
             headers: { 'Content-Type': 'application/json' },
         });
-
+        // If successful, redirect the browser to the dashboard page which redirects to the correct page based on user.position
         if (login.ok) {
             alert('Logged in!');
             document.location.replace('/dashboard');
+        } else {
+            alert('Failed to log in.');
+            document.location.replace('/login');
         }
     }
 }
@@ -51,6 +54,7 @@ const signupFormHandler = async (event) => {
     
 }
 
+//insomnia test object
 // {
 //     username: 'testUser',
 //     email: 'test@example.com',
@@ -59,6 +63,7 @@ const signupFormHandler = async (event) => {
 // };
 
 
+//if statements are needed since this document is on both the login and signup page. 
 const loginForm = document.querySelector('.login-form');
 if (loginForm) {
     loginForm.addEventListener('submit', loginFormHandler);

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { Writeup, User, Comment } = require('../models');
 const passport = require('passport');
-const local = require('../strategies/local');
+
 
 //base routes to render pages
 //These routes will need hooks from a public folder js files
@@ -17,14 +17,37 @@ router.get('/signup', async (req, res) => {
     res.render('signup');
 });
 
-//this route is rendered from logging in. Don't have the front end to check my passport methods yet to see if it only works if you have the correct crendentials
-router.get(`/employee`, async (req, res) => {
-    res.render('employee');
+//dashboard route is just for redirecting based on the logged in users position value. If you are not logged in if will send you to login
+router.get('/dashboard', async (req, res) => {
+    if (req.user) {
+        if (req.user.position == 1) {
+            res.redirect('/employee');
+        } else if (req.user.position == 2) {
+            res.redirect('/manager');
+        } else {
+            res.redirect('/login');
+        }
+    }
 });
 
-//this route is rendered from logging in. Don't have the front end to check my passport methods yet to see if it only works if you have the correct crendentials
+//route for employees
+router.get('/employee', async (req, res) => {
+    //the if checks if you have the correct credentials. So anything you want to show must be within the if statement
+    if(req.user.position == 1){
+    res.render('employee', { username: req.user.username });
+    } else {
+    res.redirect('/dashboard');
+    }
+});
+
+//route for managers.
 router.get(`/manager`, async (req, res) => {
-    res.render('manager');
+    //the if checks if you have the correct credentials. So anything you want to show must be within the if statement
+    if(req.user.position == 2){
+    res.render('manager', { username: req.user.username });
+    } else {
+    res.redirect('/dashboard');
+    }
 });
 
 

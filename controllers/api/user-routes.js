@@ -1,9 +1,8 @@
 const router = require('express').Router();
 const { User, Writeup, Comment } = require('../../models');
 const passport = require('passport');
-const local = require('../../strategies/local');
 
-
+//route to check for all the users in the database
 router.get('/check', async (req, res) => {
     try {
         const users = await User.findAll();
@@ -15,6 +14,7 @@ router.get('/check', async (req, res) => {
 
 //login route that redirects to employee or manager page based on user.position
 router.post('/login', passport.authenticate('local'), async (req, res) => {
+    //17-26 were only working in insomnia and i dont use this anymore but it shouldt stop anything from working
     const user = req.user;
     if (user) {
         const userData = await User.findOne({ where: { username: user.username } });
@@ -25,6 +25,7 @@ router.post('/login', passport.authenticate('local'), async (req, res) => {
         } else {
             res.status(401).json({ error: 'Unauthorized', position: userData.position });
         }
+    //if authentication fails it will redirect to dashboard which redirects to login if you have no credentials
     } else {
         res.redirect('/dashboard');
     }
@@ -44,6 +45,7 @@ router.post('/signup', async (req, res) => {
 
 //route for logging out the user
 router.post('/logout', (req, res) => {
+    //if you are logged in then it will log you out and send you to the homepage
     try {
         if (req.user) {
             req.logout(() => {
