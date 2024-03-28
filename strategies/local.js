@@ -6,10 +6,10 @@ passport.use(new LocalStrategy(
     async function(username, password, done) {
         const user = await db.User.findOne({ where: { username: username } });
         if (!user) {
-            return done(null, false, { message: 'Incorrect Login.' });
+            return done(null, false, { message: 'Incorrect username.' });
         }
         if (!user.checkPassword(password)) {
-            return done(null, false, { message: 'Incorrect Login.' });
+            return done(null, false, { message: 'Incorrect password.' });
         }
         return done(null, user);
     }

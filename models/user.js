@@ -40,11 +40,11 @@ User.init(
         },
         //placeholder variable for employee level
         position: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
         },
     },
-    {
+  {
         hooks: {
             beforeCreate: async (newUserData) => {
                 newUserData.password = await bcrypt.hash(newUserData.password, 10);
@@ -60,6 +60,6 @@ User.init(
         freezeTableName: true,
         underscored: true,
         modelName: 'user',
-    });
+});
 
 module.exports = User;

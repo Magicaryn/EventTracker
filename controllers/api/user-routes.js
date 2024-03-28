@@ -8,30 +8,39 @@ router.get('/signup', async (req, res) => {
     res.render('homepage');
 });
 
-//login route that redirects to employee or manager page based on user.position
-router.post('/login', passport.authenticate('local'), (req, res) => {
-    if (req.user.position === 1) {
-        res.redirect('/employee');
-    } else if (req.user.position === 2) {
-        res.redirect('/manager');
-    } else {
-        res.status(200).json(req.user);
+router.get('/check', async (req, res) => {
+    try {
+        const users = await User.findAll();
+        res.status(200).json(users);
+    } catch (err) {
+        res.status(400).json(err);
     }
 });
+
+//login route that redirects to employee or manager page based on user.position
+router.post('/login', passport.authenticate('local'), async (req, res) => {
+    const user = req.user;
+    if (user) {
+        const userData = await User.findOne({ where: { username: user.username } });
+        if (userData.position == 1) { // Fix: Use strict equality (===) instead of loose equality (==)
+            res.redirect('/employee');
+        } else if (userData.position == 2) {
+            res.redirect('/manager');
+        } else {
+            res.status(401).json({ error: 'Unauthorized', position: userData.position });
+        }
+    } else {
+        res.redirect('/');
+    }
+});
+
 
 //signup route that creates a new user and logs them in
 router.post('/signup', async (req, res) => {
     try {
         const userData = await User.create(req.body);
+        res.status(200).json(userData);
 
-        // req.login(userData, (err) => {
-        //     if (err) {
-        //         res.status(500).json(err);
-        //         return;
-        //     }
-        //     res.status(200).json(userData);
-        // });
-        
     } catch (err) {
         res.status(400).json(err);
     }
