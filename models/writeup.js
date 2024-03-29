@@ -11,6 +11,10 @@ Writeup.init(
         primaryKey: true,
         autoIncrement: true,
         },
+        manager: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        },
         //type = write up or warning
         type: {
         type: DataTypes.STRING,

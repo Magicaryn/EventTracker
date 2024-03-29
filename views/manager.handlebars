@@ -12,10 +12,11 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="writeUpModalLabel">Write Up</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <div>
+                    <h5 class="modal-title" id="writeUpModalLabel">Write Up</h5>
+                    <br>
+                    <h6 class="modal-title" id="manager">Manager: {{username}}</h6>
+                </div>
             </div>
             <div class="modal-body">
                 <form>
@@ -24,30 +25,30 @@
                         <select class="form-control" id="userDropdown">
                             <!-- Populate dropdown with users from the database -->
                             {{#each users}}
-                                    <option value="option{{@index}}">{{this}}</option>
+                                    <option value="option{{this.id}}">{{this.username}}</option>
                             {{/each}}
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="checkbox1">Warning:</label>
-                        <input type="radio" id="checkbox1" name="checkbox" value="option1">
+                        <input type="radio" id="checkbox1" name="checkbox" value="warning">
                         <label for="checkbox2">Write Up:</label>
-                        <input type="radio" id="checkbox2" name="checkbox" value="option2">
+                        <input type="radio" id="checkbox2" name="checkbox" value="writeup">
                     </div>
                     <div class="form-group">
-                        <label for="dropdown">Reason:</label>
-                        <select class="form-control" id="dropdown">
-                                    <option value="option1">Tardiness</option>
-                                    <option value="option2">Insubordination</option>
-                                    <option value="option3">Vulgar Language</option>
-                                    <option value="option4">Incorrect Uniform</option>
-                                    <option value="option5">No Show/Call Off</option>
-                                    <option value="option6">Poor Performance</option>
-                                    <option value="option7">Fraud</option>
+                        <label for="reasonDropdown">Reason:</label>
+                        <select class="form-control" id="reasonDropdown">
+                                    <option value="Tardiness">Tardiness</option>
+                                    <option value="Insubordination">Insubordination</option>
+                                    <option value="Vulgar Language">Vulgar Language</option>
+                                    <option value="Incorrect Uniform">Incorrect Uniform</option>
+                                    <option value="No Show/Call Off">No Show/Call Off</option>
+                                    <option value="Poor Performance">Poor Performance</option>
+                                    <option value="Fraud">Fraud</option>
                         </select>
                     </div>
                         <label for="commentsTextarea">Comments:</label>
-                        <textarea class="form-control" id="commentsTextarea" rows="3"></textarea>
+                        <textarea class="form-control" id="commentsTextArea" rows="3"></textarea>
                     </div>
                 </form>
             </div>
