@@ -40,7 +40,7 @@ const signupFormHandler = async (event) => {
             body: JSON.stringify({ username, email, password, position }),
             headers: { 'Content-Type': 'application/json' },
         });
-
+        // If successful, redirect the browser to the login page. Signing up does not log you in.
         if (signup.ok) {
             alert('Account created!.');
             document.location.replace('/login');
