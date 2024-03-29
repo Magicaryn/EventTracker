@@ -1,0 +1,20 @@
+[
+	{
+		"type": "Warning",
+		"reason": "Tardiness",
+		"user_id": 1,
+		"acknowledged": false
+	}, {
+		"type": "Warning",
+		"reason": "Incorrect uniform",
+		"user_id": 2,
+		"acknowledged": false
+	}, {
+		"type": "Writeup",
+		"reason": "Theft",
+		"user_id": 3,
+		"acknowledged": false
+	}
+
+
+]
