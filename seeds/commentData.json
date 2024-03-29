@@ -13,5 +13,10 @@
 		"content": "I didn't steal anything!",
 		"user_id": 3,
 		"writeup_id": 3
+	},
+	{
+		"content": "We have video proof",
+		"user_id": 4,
+		"writeup_id": 3
 	}
 ]
