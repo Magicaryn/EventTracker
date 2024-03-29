@@ -2,6 +2,7 @@
 
 <p>welcome {{username}}</req></p>
 
+
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#writeUpModal" id="openModalButton">
     Write Up
 </button>
@@ -23,7 +24,7 @@
                         <select class="form-control" id="userDropdown">
                             <!-- Populate dropdown with users from the database -->
                             {{#each users}}
-                                <option value="{{this.id}}">{{this.name}}</option>
+                                    <option value="option{{@index}}">{{this}}</option>
                             {{/each}}
                         </select>
                     </div>
@@ -62,11 +63,6 @@
 <script>
     document.getElementById("openModalButton").addEventListener("click", function() {
         $('#writeUpModal').modal('show');
-    });
-
-    document.getElementById("submitbtn").addEventListener("click", function() {
-        // Call a function from js/writeup.js
-        writeUpFunction();
     });
 </script>
 <script src="js/writeup.js"></script>
