@@ -3,12 +3,15 @@
 <p>Welcome {{username}}</p>
 
 
-{{$if writeups.length}}
 <div class="writeUp">
     <h2>Need attention:</h2>
 
-    {{#each writeups as |writeup|}}
+    {{#each writeups}}
+    {{$if (acknowledged === not true)}}
     <div class="writeupList">
-        <a href="/writeup/{{writeup.id}}">{{writeup.date_created}}</a>
+        <a href="/writeup/{{id}}">{{date_created}}</a>
     </div>
+    {{/if}}
+    {{/each}}
+
 </div>
