@@ -45,7 +45,12 @@ router.get('/employee', async (req, res) => {
 router.get(`/manager`, async (req, res) => {
     //the if checks if you have the correct credentials. So anything you want to show must be within the if statement
     if(req.user.position == 2){
-    res.render('manager', { username: req.user.username });
+        const usersData = await User.findAll();
+        const usersClean = usersData.map((user) => user.get({ plain: true }));
+        const usersEmp = usersClean.filter((user) => user.position == 1);
+        const users = usersEmp.map((user) => user.username);
+        
+    res.render('manager', { username: req.user.username, users });
     } else {
     res.redirect('/dashboard');
     }
