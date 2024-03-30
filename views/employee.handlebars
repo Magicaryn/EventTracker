@@ -1,3 +1,17 @@
 <p>employee</p>
 
 <p>Welcome {{username}}</p>
+
+
+<div class="writeUp">
+    <h2>Need attention:</h2>
+
+    {{#each writeups}}
+    {{$if (acknowledged === not true)}}
+    <div class="writeupList">
+        <a href="/writeup/{{id}}">{{date_created}}</a>
+    </div>
+    {{/if}}
+    {{/each}}
+
+</div>
