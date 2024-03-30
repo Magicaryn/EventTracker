@@ -1,3 +1,14 @@
 <p>employee</p>
 
 <p>Welcome {{username}}</p>
+
+
+{{$if writeups.length}}
+<div class="writeUp">
+    <h2>Need attention:</h2>
+
+    {{#each writeups as |writeup|}}
+    <div class="writeupList">
+        <a href="/writeup/{{writeup.id}}">{{writeup.date_created}}</a>
+    </div>
+</div>
