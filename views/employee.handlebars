@@ -7,11 +7,11 @@
     <h2>Need attention:</h2>
 
     {{#each writeups}}
-    {{$if (acknowledged === not true)}}
+    {{#unless acknowledged}}
     <div class="writeupList">
         <a href="/writeup/{{id}}">{{date_created}}</a>
     </div>
-    {{/if}}
+    {{/unless}}
     {{/each}}
 
 </div>
