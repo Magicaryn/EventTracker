@@ -4,11 +4,16 @@ const passport = require('passport');
 
 //route to check for all the users in the database
 router.get('/check', async (req, res) => {
+        const userData = await User.create(req.body);
+        res.status(200).json(userData);
+});
+
+router.get('/checkwriteups', async (req, res) => {
     try {
-        const users = await User.findAll();
-        res.status(200).json(users);
+        const writeups = await Writeup.findAll();
+        res.status(200).json(writeups);
     } catch (err) {
-        res.status(400).json(err);
+        res.status(402).json(err);
     }
 });
 
@@ -36,13 +41,27 @@ router.post('/login', passport.authenticate('local'), async (req, res) => {
 router.post('/signup', async (req, res) => {
     try {
         const userData = await User.create(req.body);
-        res.status(200).json(userData);
 
+        req.login(userData, (err) => {
+            if (err) {
+                res.status(500).json(err);
+                return;
+            }
+            res.status(200).json(userData);
+        });
+        
     } catch (err) {
-        res.status(400).json(err);
+        if (err.name === 'SequelizeValidationError') {
+            res.status(400).json({ message: 'Validation error', errors: err.errors });
+        } else {
+            res.status(500).json(err);
+        }
     }
 });
 
+//req.user
+//req.user.username = username of current logged in user
+//req.user.id .password .email .position
 //route for logging out the user
 router.post('/logout', (req, res) => {
     //if you are logged in then it will log you out and send you to the homepage
