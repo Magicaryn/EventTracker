@@ -4,7 +4,7 @@ const passport = require('passport');
 
 //route to check for all the users in the database
 router.get('/check', async (req, res) => {
-        const userData = await User.create(req.body);
+        const userData = await User.findAll(req.body);
         res.status(200).json(userData);
 });
 
