@@ -37,7 +37,7 @@ router.get('/employee', async (req, res) => {
     //the if checks if you have the correct credentials. So anything you want to show must be within the if statement
     if(req.user.position == 1){
         const userWriteups = await Writeup.findAll({
-            where: {userId: req.user.id},
+            where: {user_id: req.user.id},
             include: [{model: User}]
         })
     res.render('employee', { username: req.user.username, writeups:userWriteups});
