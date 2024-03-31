@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { json } = require('sequelize');
 const { Writeup, User, Comment } = require('../models');
 const passport = require('passport');
 
@@ -35,7 +36,11 @@ router.get('/dashboard', async (req, res) => {
 router.get('/employee', async (req, res) => {
     //the if checks if you have the correct credentials. So anything you want to show must be within the if statement
     if(req.user.position == 1){
-    res.render('employee', { username: req.user.username });
+        const userWriteups = await Writeup.findAll({
+            where: {userId: req.user.id},
+            include: [{model: User}]
+        })
+    res.render('employee', { username: req.user.username, writeups:userWriteups});
     } else {
     res.redirect('/dashboard');
     }
@@ -56,6 +61,42 @@ router.get(`/manager`, async (req, res) => {
     }
 });
 
+router.get('/writeupEMP/:id', async (req,res) => {
+    try {
+        const writeupEMPdata = await Writeup.findByPk(req.params.id, {
+            attributes: ['type', 'reason', 'manager', 'content'],
+            include: [
+                {
+                    model: User,
+                    attributes: ['user_id', 'username']
+                }
+            ]
+        })
+        res.render('writeupEMP',{writeupEMPdata: writeupEMPdata})
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
 
+router.get('/writeupFIN/:id', async (req, res) => {
+    try{
+        const finWriteup = await Writeup.findByPk(req.params.id, {
+            attributes:  ['type', 'reason', 'manager', 'content', 'acknowledged'],
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'username']
+                },
+                {
+                    model: Comment,
+                    attributes: ['id', 'content']
+                }
+            ]
+        })
+        res.render('writeupFIN', {finalWriteup: finWriteup})
+    } catch (err) {
+        res.status(400).json(err)
+    }
+});
 
 module.exports = router;

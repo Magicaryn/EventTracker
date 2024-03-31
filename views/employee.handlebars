@@ -4,14 +4,21 @@
 
 
 <div class="writeUp">
-    <h2>Need attention:</h2>
-
+    <h1>Counseling statements</h1>
+    <h3>Need attention:</h3>
     {{#each writeups}}
     {{#unless acknowledged}}
     <div class="writeupList">
-        <a href="/writeup/{{id}}">{{date_created}}</a>
+        <a href="/writeupEMP/{{id}}">{{date_created}}</a>
     </div>
     {{/unless}}
     {{/each}}
-
+    <h3>Previous documents:</h3>
+    {{#each writeups}}
+    {{#if acknowledged}}
+    <div class="writeupList">
+        <a href="/writeupFIN/{{id}}">{{date_created}}</a>
+    </div>
+    {{/if}}
+    {{/each}}
 </div>
