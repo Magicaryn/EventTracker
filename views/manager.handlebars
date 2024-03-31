@@ -4,10 +4,10 @@
 
 
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#writeUpModal" id="openModalButton">
-    Write Up
+    Create New Write Up
 </button>
 
-<!-- Modal -->
+<!-- Modal for adding writeups -->
 <div class="modal fade" id="writeUpModal" tabindex="-1" role="dialog" aria-labelledby="writeUpModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -31,9 +31,9 @@
                     </div>
                     <div class="form-group">
                         <label for="checkbox1">Warning:</label>
-                        <input type="radio" id="checkbox1" name="checkbox" value="warning">
+                        <input type="radio" id="checkbox1" name="checkbox" value="Warning">
                         <label for="checkbox2">Write Up:</label>
-                        <input type="radio" id="checkbox2" name="checkbox" value="writeup">
+                        <input type="radio" id="checkbox2" name="checkbox" value="Writeup">
                     </div>
                     <div class="form-group">
                         <label for="reasonDropdown">Reason:</label>
@@ -60,10 +60,59 @@
     </div>
 </div>
 
+{{#if writeups}}
+{{#each writeups}}
+<p>{{this.user.username}} has not acknolewdged the infraction {{this.type}} for {{this.reason}}</p>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#writeUpModal" id="openModalButton{{@index}}">
+    View
+</button>
+
+<div class="modal fade" id="viewWriteUp" tabindex="-1" role="dialog" aria-labelledby="writeUpModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title" id="writeUpModalLabel">Write Up</h5>
+                    <br>
+                    <h6 class="modal-title" id="manager">Manager: {{manager}}</h6>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="warningInfo">Infraction:</label>
+                            <p>{{this.type}} for {{this.reason}} 
+                                <br>"{{this.content}}"</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="textInput">Text Input:</label>
+                        <input type="text" class="form-control" id="textInput">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="submitbtn">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}
+{{/if}}
+
+
+
+
 
 <script>
-    document.getElementById("openModalButton").addEventListener("click", function() {
+   document.getElementById("openModalButton").addEventListener("click", function() {
         $('#writeUpModal').modal('show');
+    });
+     document.addEventListener("click", function(event) {
+        if (event.target.matches("[id^='openModalButton']")) {
+            // Add your event handling code here to show the modal
+            $('#viewWriteUp').modal('show');
+        }
     });
 </script>
 <script src="js/writeup.js"></script>

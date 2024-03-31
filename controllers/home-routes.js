@@ -55,8 +55,15 @@ router.get(`/manager`, async (req, res) => {
         const usersClean = usersData.map((user) => user.get({ plain: true }));
         //filter to only employees
         const users = usersClean.filter((user) => user.position == 1);
+
+        const writeTemp = await Writeup.findAll({
+            include: [{model: User, attributes: ['username']}],
+        });
+        const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
+        const writeups = writeClean.filter((writeup) => writeup.acknowledged == false);
+      
    
-    res.render('manager', { username: req.user.username, users });
+    res.render('manager', { username: req.user.username, users, writeups});
     } else {
     res.redirect('/dashboard');
     }
