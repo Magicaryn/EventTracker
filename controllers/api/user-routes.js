@@ -25,14 +25,20 @@ router.get('/checkcomments', async (req, res) => {
     const users = usersClean.filter((user) => user.position == 1);
 
     const writeTemp = await Writeup.findAll({
-        include: [{model: User, attributes: ['username']}],
-        include: [{model: Comment, attributes: ['content']}]
+        include: [
+            { 
+                model: User, 
+                attributes: ['username'] 
+            },
+            { 
+                model: Comment, 
+                attributes: ['content', 'user_id', 'writeup_id'] 
+            }
+        ]
     });
     const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
     const writeups = writeClean.filter((writeup) => writeup.acknowledged == false);
-  
-
-res.json({ users, writeups});
+    res.send(writeups);
 });
 
 
