@@ -60,7 +60,7 @@ router.get(`/manager`, async (req, res) => {
         const writeTemp = await Writeup.findAll({
             include: [
                 { model: User, attributes: ['username'] },
-                { model: Comment, attributes: ['content'] }
+                { model: Comment, attributes: ['content, user_id, writeup_id'] }
             ]
         });
         const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
