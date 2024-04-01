@@ -2,13 +2,13 @@
 
 <p>welcome {{username}}</req></p>
 
-
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#writeUpModal" id="openModalButton">
-    Create New Write Up
+<!-- Button to create a writeup -->
+<button type="button" class="btn btn-primary open-modal-button" data-toggle="modal" data-target="#writeUpModal" data-index="99">
+    Create Write Up
 </button>
 
 <!-- Modal for adding writeups -->
-<div class="modal fade" id="writeUpModal" tabindex="-1" role="dialog" aria-labelledby="writeUpModalLabel" aria-hidden="true">
+<div class="modal fade" id="WriteUp99" tabindex="-1" role="dialog" aria-labelledby="writeUpModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -60,14 +60,18 @@
     </div>
 </div>
 
+
+
+<!-- Writeups that have not been acknowledged -->
 {{#if writeups}}
 {{#each writeups}}
 <p>{{this.user.username}} has not acknowledged the infraction {{this.type}} for {{this.reason}}</p>
+<!-- Button to view an unacknowledged writeup -->
 <button type="button" class="btn btn-primary open-modal-button" data-toggle="modal" data-target="#writeUpModal" data-index="{{@index}}">
     View
 </button>
-
-<div class="modal fade" id="viewWriteUp{{@index}}" tabindex="-1" role="dialog" aria-labelledby="writeUpModalLabel" aria-hidden="true">
+<!-- Modals for each unacknowledged writeup -->
+<div class="modal fade" id="WriteUp{{@index}}" tabindex="-1" role="dialog" aria-labelledby="writeUpModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -86,17 +90,17 @@
                     </div>
                     <div class="form-group">
                         <label for="commentsTextarea">Comments:</label>
-                        <p>{{this.comments.content}}</p>
+                        <p>{{this.comments.[0].content}}</p>
                     </div>
                     <div class="form-group">
                         <label for="textInput">Text Input:</label>
-                        <input type="text" class="form-control" id="textInput">
+                        <input type="text" class="form-control" id="textInput" user="{{this.comments.[0].user_id}}" writeup="{{this.comments.[0].writeup_id}}">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="submitbtn">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="commentsbtn">Add Comments</button>
             </div>
         </div>
     </div>
@@ -105,19 +109,20 @@
 {{/if}}
 
 
-
-
-
-
-
 <script>
 document.addEventListener("click", function(event) {
     if (event.target.classList.contains("open-modal-button")) {
         var index = event.target.getAttribute("data-index");
-        var modalId = "viewWriteUp" + index;
+        var modalId = "WriteUp" + index;
+        
         $('#' + modalId).modal('show');
+        console.log(index);
+        console.log(modalId);
+        
     }
+    
 });
+
 </script>
 
 <script src="js/writeup.js"></script>

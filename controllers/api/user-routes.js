@@ -18,13 +18,23 @@ router.get('/checkwriteups', async (req, res) => {
 });
 
 router.get('/checkcomments', async (req, res) => {
-    try {
-        const comments = await Comment.findAll();
-        res.status(200).json(comments);
-    } catch (err) {
-        res.status(402).json(err);
-    }
+    const usersData = await User.findAll();
+    //scrub headers from the data
+    const usersClean = usersData.map((user) => user.get({ plain: true }));
+    //filter to only employees
+    const users = usersClean.filter((user) => user.position == 1);
+
+    const writeTemp = await Writeup.findAll({
+        include: [{model: User, attributes: ['username']}],
+        include: [{model: Comment, attributes: ['content']}]
+    });
+    const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
+    const writeups = writeClean.filter((writeup) => writeup.acknowledged == false);
+  
+
+res.json({ users, writeups});
 });
+
 
 
 //login route that redirects to employee or manager page based on user.position
