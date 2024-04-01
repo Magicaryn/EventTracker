@@ -46,6 +46,7 @@ router.get('/employee', async (req, res) => {
     }
 });
 
+
 //route for managers.
 router.get(`/manager`, async (req, res) => {
     //the if checks if you have the correct credentials. So anything you want to show must be within the if statement
@@ -57,7 +58,10 @@ router.get(`/manager`, async (req, res) => {
         const users = usersClean.filter((user) => user.position == 1);
 
         const writeTemp = await Writeup.findAll({
-            include: [{model: User, attributes: ['username']}],
+            include: [
+                { model: User, attributes: ['username'] },
+                { model: Comment, attributes: ['content'] }
+            ]
         });
         const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
         const writeups = writeClean.filter((writeup) => writeup.acknowledged == false);

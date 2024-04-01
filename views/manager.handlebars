@@ -62,12 +62,12 @@
 
 {{#if writeups}}
 {{#each writeups}}
-<p>{{this.user.username}} has not acknolewdged the infraction {{this.type}} for {{this.reason}}</p>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#writeUpModal" id="openModalButton{{@index}}">
+<p>{{this.user.username}} has not acknowledged the infraction {{this.type}} for {{this.reason}}</p>
+<button type="button" class="btn btn-primary open-modal-button" data-toggle="modal" data-target="#writeUpModal" data-index="{{@index}}">
     View
 </button>
 
-<div class="modal fade" id="viewWriteUp" tabindex="-1" role="dialog" aria-labelledby="writeUpModalLabel" aria-hidden="true">
+<div class="modal fade" id="viewWriteUp{{@index}}" tabindex="-1" role="dialog" aria-labelledby="writeUpModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -83,6 +83,10 @@
                         <label for="warningInfo">Infraction:</label>
                             <p>{{this.type}} for {{this.reason}} 
                                 <br>"{{this.content}}"</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="commentsTextarea">Comments:</label>
+                        <p>{{this.comments.content}}</p>
                     </div>
                     <div class="form-group">
                         <label for="textInput">Text Input:</label>
@@ -104,16 +108,17 @@
 
 
 
+
+
 <script>
-   document.getElementById("openModalButton").addEventListener("click", function() {
-        $('#writeUpModal').modal('show');
-    });
-     document.addEventListener("click", function(event) {
-        if (event.target.matches("[id^='openModalButton']")) {
-            // Add your event handling code here to show the modal
-            $('#viewWriteUp').modal('show');
-        }
-    });
+document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("open-modal-button")) {
+        var index = event.target.getAttribute("data-index");
+        var modalId = "viewWriteUp" + index;
+        $('#' + modalId).modal('show');
+    }
+});
 </script>
+
 <script src="js/writeup.js"></script>
 
