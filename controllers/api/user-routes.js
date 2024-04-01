@@ -17,7 +17,7 @@ router.get('/checkwriteups', async (req, res) => {
     }
 });
 
-// 
+// FOR TESTING: Check up route to retrieve writeups and their nested comments
 router.get('/checkwriteups-comment', async (req, res) => {
     try {
         const writeups = await Writeup.findAll({
