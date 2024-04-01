@@ -34,8 +34,3 @@ const writeUpHandler = async (event) => {
     }
 }
 
-if(writeUpModal){
-    writeUpModal.addEventListener('hidden.bs.modal', writeUpHandler);
-}
-
-

@@ -3,64 +3,9 @@
 <p>welcome {{username}}</req></p>
 
 <!-- Button to create a writeup -->
-<button type="button" class="btn btn-primary open-modal-button" data-toggle="modal" data-target="#writeUpModal" data-index="99">
+<a href="/writeup" class="btn btn-primary" id="#writeUpForm">
     Create Write Up
-</button>
-
-<!-- Modal for adding writeups -->
-<div class="modal fade" id="WriteUp99" tabindex="-1" role="dialog" aria-labelledby="writeUpModalLabel" aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div>
-                    <h5 class="modal-title" id="writeUpModalLabel">Write Up</h5>
-                    <br>
-                    <h6 class="modal-title" id="manager">Manager: {{username}}</h6>
-                </div>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="userDropdown">Select User:</label>
-                        <select class="form-control" id="userDropdown">
-                            <!-- Populate dropdown with users from the database -->
-                            {{#each users}}
-                                    <option value="option{{this.id}}">{{this.username}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="checkbox1">Warning:</label>
-                        <input type="radio" id="checkbox1" name="checkbox" value="Warning">
-                        <label for="checkbox2">Write Up:</label>
-                        <input type="radio" id="checkbox2" name="checkbox" value="Writeup">
-                    </div>
-                    <div class="form-group">
-                        <label for="reasonDropdown">Reason:</label>
-                        <select class="form-control" id="reasonDropdown">
-                                    <option value="Tardiness">Tardiness</option>
-                                    <option value="Insubordination">Insubordination</option>
-                                    <option value="Vulgar Language">Vulgar Language</option>
-                                    <option value="Incorrect Uniform">Incorrect Uniform</option>
-                                    <option value="No Show/Call Off">No Show/Call Off</option>
-                                    <option value="Poor Performance">Poor Performance</option>
-                                    <option value="Fraud">Fraud</option>
-                        </select>
-                    </div>
-                        <label for="commentsTextarea">Comments:</label>
-                        <textarea class="form-control" id="commentsTextArea" rows="3"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="submitbtn">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
+</a>
 
 <!-- Writeups that have not been acknowledged -->
 {{#if writeups}}

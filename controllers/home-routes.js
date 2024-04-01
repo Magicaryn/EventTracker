@@ -60,7 +60,7 @@ router.get(`/manager`, async (req, res) => {
         const writeTemp = await Writeup.findAll({
             include: [
                 { model: User, attributes: ['username'] },
-                { model: Comment, attributes: ['content, user_id, writeup_id'] }
+                { model: Comment, attributes: ['content', 'user_id', 'writeup_id'] }
             ]
         });
         const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
@@ -108,6 +108,20 @@ router.get('/writeupFIN/:id', async (req, res) => {
         res.render('writeupFIN', {finalWriteup: finWriteup})
     } catch (err) {
         res.status(400).json(err)
+    }
+});
+
+router.get('/writeup', async (req, res) => {
+    if(req.user.position == 2){
+        const usersData = await User.findAll();
+        //scrub headers from the data
+        const usersClean = usersData.map((user) => user.get({ plain: true }));
+        //filter to only employees
+        const users = usersClean.filter((user) => user.position == 1);
+        
+        res.render('writeup', {username: req.user.username, users});
+    } else {
+        res.redirect('/dashboard');
     }
 });
 
