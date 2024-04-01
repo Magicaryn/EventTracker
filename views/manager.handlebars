@@ -1,70 +1,93 @@
 <p>manager</p>
 
-<p>welcome {{username}}</req></p>
+<p user="{{id}}">welcome {{username}}</req></p>
 
+<!-- Button to create a writeup -->
+<a href="/writeup" class="btn btn-primary" id="#writeUpForm">
+    Create Write Up
+</a>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#writeUpModal" id="openModalButton">
-    Write Up
+<!-- Writeups that have not been acknowledged -->
+{{#if writeups}}
+{{#each writeups}}
+<p>{{this.user.username}} has not acknowledged the infraction {{this.type}} for {{this.reason}}</p>
+<!-- Button to view an unacknowledged writeup -->
+<button type="button" class="btn btn-primary open-modal-button" data-toggle="modal" data-target="#writeUpModal" data-index="{{@index}}">
+    View
 </button>
-
-<!-- Modal -->
-<div class="modal fade" id="writeUpModal" tabindex="-1" role="dialog" aria-labelledby="writeUpModalLabel" aria-hidden="true">
+<!-- Modals for each unacknowledged writeup -->
+<div class="modal fade" id="WriteUp{{@index}}" tabindex="-1" role="dialog" aria-labelledby="writeUpModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <div>
                     <h5 class="modal-title" id="writeUpModalLabel">Write Up</h5>
                     <br>
-                    <h6 class="modal-title" id="manager">Manager: {{username}}</h6>
+                    <h6 class="modal-title" id="manager">Manager: {{manager}}</h6>
                 </div>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="userDropdown">Select User:</label>
-                        <select class="form-control" id="userDropdown">
-                            <!-- Populate dropdown with users from the database -->
-                            {{#each users}}
-                                    <option value="option{{this.id}}">{{this.username}}</option>
-                            {{/each}}
-                        </select>
+                        <label for="warningInfo">Infraction:</label>
+                            <p>{{this.type}} for {{this.reason}} 
+                                <br>"{{this.content}}"</p>
                     </div>
+                    {{#each comments}}
                     <div class="form-group">
-                        <label for="checkbox1">Warning:</label>
-                        <input type="radio" id="checkbox1" name="checkbox" value="warning">
-                        <label for="checkbox2">Write Up:</label>
-                        <input type="radio" id="checkbox2" name="checkbox" value="writeup">
+                        <label for="commentsTextarea">Commented by - {{this.user.username}}:</label>
+                        <p>{{this.content}}</p>
                     </div>
+                    {{/each}}
                     <div class="form-group">
-                        <label for="reasonDropdown">Reason:</label>
-                        <select class="form-control" id="reasonDropdown">
-                                    <option value="Tardiness">Tardiness</option>
-                                    <option value="Insubordination">Insubordination</option>
-                                    <option value="Vulgar Language">Vulgar Language</option>
-                                    <option value="Incorrect Uniform">Incorrect Uniform</option>
-                                    <option value="No Show/Call Off">No Show/Call Off</option>
-                                    <option value="Poor Performance">Poor Performance</option>
-                                    <option value="Fraud">Fraud</option>
-                        </select>
-                    </div>
-                        <label for="commentsTextarea">Comments:</label>
-                        <textarea class="form-control" id="commentsTextArea" rows="3"></textarea>
+                        <label for="textInput">Text Input:</label>
+                        <input type="text" class="form-control" id="textInput" writeup="{{this.comments.[0].writeup_id}}">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="submitbtn">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="commentsbtn">Add Comments</button>
             </div>
         </div>
     </div>
 </div>
+{{/each}}
+{{/if}}
+
 
 
 <script>
-    document.getElementById("openModalButton").addEventListener("click", function() {
-        $('#writeUpModal').modal('show');
+    document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("open-modal-button")) {
+        var index = event.target.getAttribute("data-index");
+        var modalId = "WriteUp" + index;
+        
+        $('#' + modalId).modal('show');      
+    }
+    
+});
+$(document).ready(function() {
+    $('#commentsbtn').on('click', async function(event) {
+        event.preventDefault();
+        const content = $('#textInput').val().trim();
+        const user_id = $('p[user]').attr('user');
+        const writeup_id = $('#textInput').attr('writeup');
+
+        if (content && user_id && writeup_id) {
+            const response = await fetch('/api/users/comment', {
+                method: 'POST',
+                body: JSON.stringify({ content, user_id, writeup_id }),
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            if (response.ok) {
+                document.location.replace('/dashboard');
+            } else {
+                alert('Failed to create comment');
+            }
+        }
     });
+});
 </script>
-<script src="js/writeup.js"></script>
 
