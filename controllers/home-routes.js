@@ -60,14 +60,16 @@ router.get(`/manager`, async (req, res) => {
         const writeTemp = await Writeup.findAll({
             include: [
                 { model: User, attributes: ['username'] },
-                { model: Comment, attributes: ['content', 'user_id', 'writeup_id'] }
+                { model: Comment, attributes: ['content', 'user_id', 'writeup_id'],
+                    include: [{model: User,attributes: ['username']}]
+                }
             ]
         });
         const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
         const writeups = writeClean.filter((writeup) => writeup.acknowledged == false);
-      
+
    
-    res.render('manager', { username: req.user.username, users, writeups});
+    res.render('manager', { username: req.user.username, id:req.user.id, users, writeups});
     } else {
     res.redirect('/dashboard');
     }

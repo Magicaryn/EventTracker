@@ -1,6 +1,6 @@
 <p>manager</p>
 
-<p>welcome {{username}}</req></p>
+<p user="{{id}}">welcome {{username}}</req></p>
 
 <!-- Button to create a writeup -->
 <a href="/writeup" class="btn btn-primary" id="#writeUpForm">
@@ -35,13 +35,13 @@
                     </div>
                     {{#each comments}}
                     <div class="form-group">
-                        <label for="commentsTextarea">Comment - :</label>
+                        <label for="commentsTextarea">Commented by - {{this.user.username}}:</label>
                         <p>{{this.content}}</p>
                     </div>
                     {{/each}}
                     <div class="form-group">
                         <label for="textInput">Text Input:</label>
-                        <input type="text" class="form-control" id="textInput" user="{{this.comments.[0].user_id}}" writeup="{{this.comments.[0].writeup_id}}">
+                        <input type="text" class="form-control" id="textInput" writeup="{{this.comments.[0].writeup_id}}">
                     </div>
                 </form>
             </div>
@@ -71,7 +71,7 @@ $(document).ready(function() {
     $('#commentsbtn').on('click', async function(event) {
         event.preventDefault();
         const content = $('#textInput').val().trim();
-        const user_id = $('#textInput').attr('user');
+        const user_id = $('p[user]').attr('user');
         const writeup_id = $('#textInput').attr('writeup');
 
         if (content && user_id && writeup_id) {
