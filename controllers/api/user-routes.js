@@ -17,32 +17,6 @@ router.get('/checkwriteups', async (req, res) => {
     }
 });
 
-router.get('/checkcomments', async (req, res) => {
-    const usersData = await User.findAll();
-    //scrub headers from the data
-    const usersClean = usersData.map((user) => user.get({ plain: true }));
-    //filter to only employees
-    const users = usersClean.filter((user) => user.position == 1);
-
-    const writeTemp = await Writeup.findAll({
-        include: [
-            { 
-                model: User, 
-                attributes: ['username'] 
-            },
-            { 
-                model: Comment, 
-                attributes: ['content', 'user_id', 'writeup_id'] 
-            }
-        ]
-    });
-    const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
-    const writeups = writeClean.filter((writeup) => writeup.acknowledged == false);
-    res.send(writeups);
-});
-
-
-
 //login route that redirects to employee or manager page based on user.position
 router.post('/login', passport.authenticate('local'), async (req, res) => {
     //17-26 were only working in insomnia and i dont use this anymore but it shouldt stop anything from working

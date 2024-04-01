@@ -40,7 +40,9 @@ router.get('/employee', async (req, res) => {
             where: {user_id: req.user.id},
             include: [{model: User}]
         })
-    res.render('employee', { username: req.user.username, writeups:userWriteups});
+        // Serialized the data before passing to the template
+        const writeupsData = userWriteups.map((writeup) => writeup.get({ plain: true }));
+    res.render('employee', { username: req.user.username, writeups: writeupsData});
     } else {
     res.redirect('/dashboard');
     }
