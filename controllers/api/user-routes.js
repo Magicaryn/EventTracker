@@ -17,6 +17,25 @@ router.get('/checkwriteups', async (req, res) => {
     }
 });
 
+// 
+router.get('/checkwriteups-comment', async (req, res) => {
+    try {
+        const writeups = await Writeup.findAll({
+            where: { user_id: req.body.id},
+            include: [
+                {
+                    model: Comment,
+                    attributes: ['content', 'user_id']
+                }
+            ]
+        })
+        res.status(200).json(writeups);
+    } catch (err) {
+        res.status(402).json(err);
+    }
+});
+
+
 //login route that redirects to employee or manager page based on user.position
 router.post('/login', passport.authenticate('local'), async (req, res) => {
     //17-26 were only working in insomnia and i dont use this anymore but it shouldt stop anything from working
