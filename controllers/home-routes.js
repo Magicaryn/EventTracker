@@ -84,7 +84,7 @@ router.get('/writeupEMP/:id', async (req,res) => {
             include: [
                 {
                     model: User,
-                    attributes: ['user_id', 'username']
+                    attributes: ['id', 'username']
                 }
             ]
         })
