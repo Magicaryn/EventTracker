@@ -33,20 +33,49 @@ router.get('/dashboard', async (req, res) => {
 });
 
 //route for employees
+// Functional 
+// router.get('/employee', async (req, res) => {
+//     //the if checks if you have the correct credentials. So anything you want to show must be within the if statement
+//     if(req.user.position == 1){
+//         const userWriteups = await Writeup.findAll({
+//             where: {user_id: req.user.id},
+//             include: [{model: User}]
+//         })
+//         // Serialized the data before passing to the template
+//         const writeupsData = userWriteups.map((writeup) => writeup.get({ plain: true }));
+//     res.render('employee', { username: req.user.username, writeups: writeupsData});
+//     } else {
+//     res.redirect('/dashboard');
+//     }
+// });
+
+// Route for Employees
 router.get('/employee', async (req, res) => {
-    //the if checks if you have the correct credentials. So anything you want to show must be within the if statement
-    if(req.user.position == 1){
-        const userWriteups = await Writeup.findAll({
+    // Ensure that the user is not a manager before rendering the page
+    if (req.user.position == 1){
+        const usersData = await User.findAll();
+        // Serialize the data
+        const usersClean = usersData.map((user) => user.get({ plain: true }));
+        // Filters data to only non-manager employees
+        const users = usersClean.filter((user) => user.position == 1);
+
+        const writeTemp = await Writeup.findAll({
             where: {user_id: req.user.id},
-            include: [{model: User}]
-        })
-        // Serialized the data before passing to the template
-        const writeupsData = userWriteups.map((writeup) => writeup.get({ plain: true }));
-    res.render('employee', { username: req.user.username, writeups: writeupsData});
+            include: [
+                { model: User, attributes: ['username'] },
+                { model: Comment, attributes: ['content', 'user_id', 'writeup_id'],
+                    include: [{model: User, attributes: ['username']}]
+                }
+            ]
+        });
+        const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
+   
+    res.render('writeupEMPTwo', { username: req.user.username, id: req.user.id, users, writeups: writeClean});
     } else {
     res.redirect('/dashboard');
     }
 });
+
 
 
 //route for managers.
