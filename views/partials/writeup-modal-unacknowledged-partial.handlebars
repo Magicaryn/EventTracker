@@ -1,0 +1,49 @@
+<h2>"{{reason}}" on {{format_date date_created}} from {{manager}}</h2>
+
+<button type="button" class="btn btn-primary open-modal-button" data-toggle="modal" data-target="#" data-index="{{@index}}">
+    View
+</button>
+<!-- Modals for each unacknowledged writeup -->
+<div class="modal fade" id="WriteUp{{@index}}" tabindex="-1" role="dialog" aria-labelledby="writeUpModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header"> <!-- Modal-->
+                <div>
+                    <h5 class="modal-title" id="writeUpModalLabel">"{{reason}}" on {{format_date date_created}} from {{manager}}</h5>
+
+                    <!-- Can add from the writeupEMP.handlebars --> 
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <div class="form-group"> <!-- .this refers to the writeup -->
+                        <label for="warningInfo">Infraction:</label>
+                            <p>{{this.type}} for {{this.reason}} 
+                                <br>"{{this.content}}"</p>
+                    </div>
+                    {{#each comments}} <!-- When we use each, we have now changed what .this refers to. It changes from writeup to comment writeups.comment-->
+                    <div class="form-group">
+                        <label for="commentsTextarea">Commented by - {{this.user.username}}:</label>
+                        <p>{{this.content}}</p>
+                    </div>
+                    {{/each}}
+                    <!-- Delete if they have acknowledged -->
+                    <div class="form-group">
+                        <label for="textInput">Questions/Comments/Concerns</label>
+                        <input type="text" class="form-control" id="textInput" writeup="{{this.comments.[0].writeup_id}}"> <!-- Writeups.comments.[0] Call the position in the array if we ever work with comments-->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer"> <!-- Houses the button -->
+                <!-- Can add the legalese acknowledge text into the footer -->
+                <!-- Can probaly add some changes based on whether acknowleged -->
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> <!-- Need data-bs-dismiss to close--> 
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="commentsbtn">Add Comments</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="acknowldgementbtn">Acknowledge</button> <!-- Will probably need an event listener to submit to a PUT route-->
+                
+            </div>
+        </div>
+    </div>
+</div>

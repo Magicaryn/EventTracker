@@ -2,14 +2,13 @@
 
 <p>Welcome {{username}}</p>
 
-{{!-- 
 <div class="writeUp">
     <h1>Counseling statements</h1>
     <h3>Need attention:</h3>
     {{#each writeups as |writeup| }}
     {{#unless acknowledged}}
     <div class="writeupList">
-        {{> writeup-partial}}
+        {{> writeup-modal-unacknowledged-partial}}
     </div>
     {{/unless}}
     {{/each}}
@@ -21,4 +20,17 @@
     </div>
     {{/if}}
     {{/each}}
-</div> --}}
+</div> 
+
+
+<script>
+    document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("open-modal-button")) {
+        var index = event.target.getAttribute("data-index");
+        var modalId = "WriteUp" + index;
+        
+        $('#' + modalId).modal('show');      
+    }
+    
+});
+</script>

@@ -70,7 +70,7 @@ router.get('/employee', async (req, res) => {
         });
         const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
    
-    res.render('writeupEMPTwo', { username: req.user.username, id: req.user.id, users, writeups: writeClean});
+    res.render('employee', { username: req.user.username, id: req.user.id, users, writeups: writeClean});
     } else {
     res.redirect('/dashboard');
     }
