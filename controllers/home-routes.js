@@ -106,32 +106,33 @@ router.get(`/manager`, async (req, res) => {
     }
 });
 
-router.get('/writeupEMP/:id', async (req,res) => {
-    try {
-        const writeupEMPdata = await Writeup.findByPk(req.params.id, {
-            attributes: ['type', 'reason', 'manager', 'content'],
-            include: [
-                {
-                    model: User,
-                    attributes: ['id', 'username']
-                }
-            ]
-        })
+// NOT UTILIZED - functionality implemented in the GET `employee` route
+// router.get('/writeupEMP/:id', async (req,res) => {
+//     try {
+//         const writeupEMPdata = await Writeup.findByPk(req.params.id, {
+//             attributes: ['type', 'reason', 'manager', 'content'],
+//             include: [
+//                 {
+//                     model: User,
+//                     attributes: ['id', 'username']
+//                 }
+//             ]
+//         })
 
-        if (!writeupEMPdata) {
-            res.status(404).json("No writeup found");
-            return;
-        }
-        //res.status(200).json(writeupEMPdata);
-        if (req.user.id == writeupEMPdata.user.id || req.user.position == 2) {
-            res.render('writeupEMP',{writeupEMPdata: writeupEMPdata})
-        } else {
-            res.status(403).json("You do not have access to this writeup")
-        }
-    } catch (err) {
-        res.status(400).json(err);
-    }
-});
+//         if (!writeupEMPdata) {
+//             res.status(404).json("No writeup found");
+//             return;
+//         }
+//         //res.status(200).json(writeupEMPdata);
+//         if (req.user.id == writeupEMPdata.user.id || req.user.position == 2) {
+//             res.render('writeupEMP',{writeupEMPdata: writeupEMPdata})
+//         } else {
+//             res.status(403).json("You do not have access to this writeup")
+//         }
+//     } catch (err) {
+//         res.status(400).json(err);
+//     }
+// });
 
 router.get('/writeupFIN/:id', async (req, res) => {
     try{
