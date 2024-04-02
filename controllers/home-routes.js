@@ -88,6 +88,12 @@ router.get('/writeupEMP/:id', async (req,res) => {
                 }
             ]
         })
+
+        if (!writeupEMPdata) {
+            res.status(404).json("No writeup found");
+            return;
+        }
+        // res.status(200).json(writeupEMPdata);
         res.render('writeupEMP',{writeupEMPdata: writeupEMPdata})
     } catch (err) {
         res.status(400).json(err);
