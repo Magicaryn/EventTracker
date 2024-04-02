@@ -17,6 +17,28 @@ router.get('/checkwriteups', async (req, res) => {
     }
 });
 
+router.get('/checkagain', async (req, res) => {
+    const usersData = await User.findAll();
+        //scrub headers from the data
+        const usersClean = usersData.map((user) => user.get({ plain: true }));
+        //filter to only employees
+        const users = usersClean.filter((user) => user.position == 1);
+
+        const writeTemp = await Writeup.findAll({
+            include: [
+                { model: User, attributes: ['username'] },
+                { model: Comment, attributes: ['content', 'user_id', 'writeup_id'],
+                    include: [{model: User,attributes: ['username']}]
+                }
+            ]
+        });
+        const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
+        const writeups = writeClean.filter((writeup) => writeup.acknowledged == false);
+
+
+    res.send({users, writeups});
+});
+
 //login route that redirects to employee or manager page based on user.position
 router.post('/login', passport.authenticate('local'), async (req, res) => {
     //17-26 were only working in insomnia and i dont use this anymore but it shouldt stop anything from working
@@ -92,6 +114,19 @@ router.post('/comment', async (req, res) => {
 router.post('/writeup', async (req, res) => {
     try {
         const writeupData = await Writeup.create(req.body);
+        res.status(200).json(writeupData);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
+
+router.put('/acknow', async (req, res) => {
+    try {
+        const writeupData = await Writeup.update({ acknowledged: true }, {
+            where: {
+                id: req.body.writeup_id
+            }
+        });
         res.status(200).json(writeupData);
     } catch (err) {
         res.status(400).json(err);

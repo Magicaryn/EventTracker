@@ -1,6 +1,6 @@
 <p>manager</p>
 
-<p user="{{id}}">welcome {{username}}</req></p>
+<p user="{{id}}">welcome {{username}}</p>
 
 <!-- Button to create a writeup -->
 <a href="/writeup" class="btn btn-primary" id="#writeUpForm">
@@ -82,16 +82,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 method: 'POST',
                 body: JSON.stringify({ content, user_id, writeup_id }),
                 headers: { 'Content-Type': 'application/json' },
-            });
+                });
                 window.location.replace('/dashboard');
-        }
+            }
+        });
     });
-    });
-});
-
-
-
-        
-
+}); 
 </script>
 
