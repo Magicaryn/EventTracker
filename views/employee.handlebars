@@ -1,6 +1,6 @@
-<p>employee</p>
+<p>EMPLOYEE</p>
 
-<p>Welcome {{username}}</p>
+<p>Welcome, {{username}}</p>
 
 <div class="writeUp">
     <h1>Counseling statements</h1>
@@ -16,7 +16,7 @@
     {{#each writeups as |writeup| }}
     {{#if acknowledged}}
     <div class="writeupList">
-        {{> writeup-partial}}
+        {{> writeup-modal-acknowledged-partial}}
     </div>
     {{/if}}
     {{/each}}
