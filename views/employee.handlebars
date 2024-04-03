@@ -38,7 +38,7 @@
 document.addEventListener("DOMContentLoaded", function() {
         const commentButtons = document.querySelectorAll(".modal-footer #commentsbtn");
         commentButtons.forEach(function(button) {
-            button.addEventListener("click", function(event) {
+            button.addEventListener("click", async function(event) {
                 const modalId = this.closest(".modal").id;
                 const textInput = document.querySelector(`#${modalId} #textInput`);
                 const content = textInput.value;
@@ -51,12 +51,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.log(content, writeup_id, user_id);
                 
                 if (content && user_id && writeup_id) {   
-                const response = fetch('/api/users/comment', {         
+                const response = await fetch('/api/users/comment', {         
                 method: 'POST',
                 body: JSON.stringify({ content, user_id, writeup_id }),
                 headers: { 'Content-Type': 'application/json' },
                 });
-                window.location.replace('/dashboard');
+                if (response.ok) {
+                    window.location.replace('/dashboard');
+                } else {
+                    alert('Failed to post your comment, please try again')
+                }
             }
         });
     });
@@ -65,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener("DOMContentLoaded", function() {
         const commentButtons = document.querySelectorAll(".modal-footer #acknowldgementbtn");
         commentButtons.forEach(function(button) {
-            button.addEventListener("click", function(event) {
+            button.addEventListener("click", async function(event) {
                 const modalId = this.closest(".modal").id;
                 const textInput = document.querySelector(`#${modalId} #textInput`);
                 const content = textInput.value;
@@ -78,12 +82,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 //debugger;
                 if (writeup_id) {   
                     //debugger;
-                const response = fetch('/api/users/acknow', {         
+                const response = await fetch('/api/users/acknow', {         
                 method: 'PUT',
                 body: JSON.stringify({writeup_id, acknowledged }),
                 headers: { 'Content-Type': 'application/json' },
                 });
-                window.location.replace('/dashboard');
+                if (response.ok) {
+                    window.location.replace('/dashboard');
+                } else {
+                    alert('Failed to post acknowledgement, please try again')
+                }
             }
         });
     });
