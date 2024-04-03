@@ -42,7 +42,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 const modalId = this.closest(".modal").id;
                 const textInput = document.querySelector(`#${modalId} #textInput`);
                 const content = textInput.value;
-                const writeup_id = parseInt(modalId.split("WriteUp")[1]) + 1;
+                //const writeup_id = parseInt(modalId.split("WriteUp")[1]) + 1;
+                const writeup_id_string = this.closest(".modal").title;
+                console.log(writeup_id_string);
+                const writeup_id = parseInt(this.closest(".modal").title);
                 const user_id = parseInt(document.querySelector("p[user]").getAttribute("user"));
 
                 console.log(content, writeup_id, user_id);
@@ -66,7 +69,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 const modalId = this.closest(".modal").id;
                 const textInput = document.querySelector(`#${modalId} #textInput`);
                 const content = textInput.value;
-                const writeup_id = parseInt(modalId.split("WriteUp")[1]) + 1;
+                // const writeup_id = parseInt(modalId.split("WriteUp")[1]) + 1;
+                const writeup_id = parseInt(this.closest(".modal").title);
                 const user_id = parseInt(document.querySelector("p[user]").getAttribute("user"));
                 const acknowledged = true;
 
