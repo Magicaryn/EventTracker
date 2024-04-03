@@ -16,7 +16,7 @@
     View
 </button>
 <!-- Modals for each unacknowledged writeup -->
-<div class="modal fade" id="WriteUp{{@index}}" tabindex="-1" role="dialog" aria-labelledby="writeUpModalLabel" aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" title="{{id}}" id="WriteUp{{@index}}" tabindex="-1" role="dialog" aria-labelledby="writeUpModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -39,7 +39,7 @@
                     {{/each}}
                     <div class="form-group">
                         <label for="textInput">Questions/Comments/Concerns:</label>
-                        <input type="text" class="form-control" id="textInput" writeup="{{this.comments.[0].writeup_id}}">
+                        <input type="text" class="form-control" id="textInput">
                     </div>
                 </form>
             </div>
@@ -66,27 +66,33 @@
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-        const commentButtons = document.querySelectorAll(".modal-footer #commentsbtn");
-        commentButtons.forEach(function(button) {
-            button.addEventListener("click", function(event) {
-                const modalId = this.closest(".modal").id;
-                const textInput = document.querySelector(`#${modalId} #textInput`);
-                const content = textInput.value;
-                const writeup_id = parseInt(modalId.split("WriteUp")[1]) + 1;
-                const user_id = parseInt(document.querySelector("p[user]").getAttribute("user"));
+    const commentButtons = document.querySelectorAll(".modal-footer #commentsbtn");
+    commentButtons.forEach(function(button) {
+        button.addEventListener("click", async function(event) {
+            const modalId = this.closest(".modal").id;
+            const textInput = document.querySelector(`#${modalId} #textInput`);
+            const content = textInput.value;
 
-                console.log(content, writeup_id, user_id);
-                
-                if (content && user_id && writeup_id) {   
-                const response = fetch('/api/users/comment', {         
-                method: 'POST',
-                body: JSON.stringify({ content, user_id, writeup_id }),
-                headers: { 'Content-Type': 'application/json' },
+            const writeup_id = parseInt(this.closest(".modal").title);
+            const user_id = parseInt(document.querySelector("p[user]").getAttribute("user"));
+
+            console.log(content, user_id, writeup_id);
+
+            if (content && user_id && writeup_id) {
+                const response = await fetch('/api/users/comment', {
+                    method: 'POST',
+                    body: JSON.stringify({ content, user_id, writeup_id }),
+                    headers: { 'Content-Type': 'application/json' },
                 });
-                window.location.replace('/dashboard');
+
+                if (response.ok) {
+                    window.location.replace('/dashboard');
+                } else {
+                    alert('Failed to post Writeup, please try again')
+                }
             }
         });
     });
-}); 
-</script>
+});
 
+</script>
