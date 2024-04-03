@@ -85,6 +85,7 @@ router.get('/employee', async (req, res) => {
 router.get(`/manager`, async (req, res) => {
     //the if checks if you have the correct credentials. So anything you want to show must be within the if statement
     if (req.user) {
+        const loggedIn = req.user ? true : false;
         if(req.user.position == 2){
             const usersData = await User.findAll();
             //scrub headers from the data
@@ -103,7 +104,7 @@ router.get(`/manager`, async (req, res) => {
             const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
             const writeups = writeClean.filter((writeup) => writeup.acknowledged == false);
 
-            res.render('manager', { username: req.user.username, id:req.user.id, users, writeups});
+            res.render('manager', { username: req.user.username, id:req.user.id, users, writeups, loggedIn: loggedIn});
         }
         
     } else {
