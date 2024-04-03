@@ -26,7 +26,12 @@ router.get('/login', async (req, res) => {
 });
 
 router.get('/signup', async (req, res) => {
-    res.render('signup');
+    if (!req.user) {
+        const loggedIn = req.user ? true : false;
+        res.render('signup', {loggedIn: loggedIn});
+    } else {
+        res.redirect('dashboard');
+    }
 });
 
 //dashboard route is just for redirecting based on the logged in users position value. If you are not logged in if will send you to login
