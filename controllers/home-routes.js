@@ -17,7 +17,12 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/login', async (req, res) => {
-    res.render('login');
+    if (!req.user) {
+        const loggedIn = req.user ? true : false;
+         res.render('login', {loggedIn: loggedIn});
+    } else {
+        res.redirect('dashboard');
+    }
 });
 
 router.get('/signup', async (req, res) => {
