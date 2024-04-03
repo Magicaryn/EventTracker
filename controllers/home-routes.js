@@ -53,6 +53,7 @@ router.get('/dashboard', async (req, res) => {
 router.get('/employee', async (req, res) => {
     if (req.user){
         // Ensure that the user is not a manager before rendering the page
+        const loggedIn = req.user ? true : false;
         if (req.user.position == 1){
             const usersData = await User.findAll();
             // Serialize the data
@@ -71,7 +72,7 @@ router.get('/employee', async (req, res) => {
             });
             const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
        
-            res.render('employee', { username: req.user.username, id: req.user.id, users, writeups: writeClean});
+            res.render('employee', { username: req.user.username, id: req.user.id, users, writeups: writeClean, loggedIn: loggedIn});
         }
     } else {
     res.redirect('/dashboard');
