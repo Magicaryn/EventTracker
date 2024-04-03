@@ -182,16 +182,21 @@ router.get('/writeupFIN/:id', async (req, res) => {
 });
 
 router.get('/writeup', async (req, res) => {
-    if(req.user.position == 2){
-        const usersData = await User.findAll();
-        //scrub headers from the data
-        const usersClean = usersData.map((user) => user.get({ plain: true }));
-        //filter to only employees
-        const users = usersClean.filter((user) => user.position == 1);
-        
-        res.render('writeup', {username: req.user.username, users});
+    if (req.user) {
+        const loggedIn = req.user ? true : false;
+        if(req.user.position == 2){
+            const usersData = await User.findAll();
+            //scrub headers from the data
+            const usersClean = usersData.map((user) => user.get({ plain: true }));
+            //filter to only employees
+            const users = usersClean.filter((user) => user.position == 1);
+            
+            res.render('writeup', {username: req.user.username, users, loggedIn: loggedIn});
+        } else {
+            res.redirect('/dashboard');
+        }
     } else {
-        res.redirect('/dashboard');
+         res.redirect('/login');
     }
 });
 
