@@ -5,21 +5,22 @@
 <div class="writeUp">
     <h1>Counseling statements</h1>
     <h3>Need attention:</h3>
+    <div class="writeupList">
     {{#each writeups as |writeup| }}
     {{#unless acknowledged}}
-    <div class="writeupList">
+ 
         {{> writeup-modal-unacknowledged-partial}}
-    </div>
     {{/unless}}
     {{/each}}
+    </div>
     <h3>Previous documents:</h3>
+    <div class="writeupList">
     {{#each writeups as |writeup| }}
     {{#if acknowledged}}
-    <div class="writeupList">
         {{> writeup-modal-acknowledged-partial}}
-    </div>
     {{/if}}
     {{/each}}
+    </div>
 </div> 
 
 
@@ -70,9 +71,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 const acknowledged = true;
 
                 console.log(content, writeup_id, user_id);
-                debugger;
+                //debugger;
                 if (writeup_id) {   
-                    debugger;
+                    //debugger;
                 const response = fetch('/api/users/acknow', {         
                 method: 'PUT',
                 body: JSON.stringify({writeup_id, acknowledged }),
