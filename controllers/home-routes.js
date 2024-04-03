@@ -89,6 +89,9 @@ router.get('/employee', async (req, res) => {
        
             res.render('employee', { username: req.user.username, id: req.user.id, users, writeups: writeClean, loggedIn: loggedIn});
         }
+        else{
+            res.redirect('/dashboard');
+        }
     } else {
     res.redirect('/dashboard');
     }
@@ -121,7 +124,9 @@ router.get(`/manager`, async (req, res) => {
 
             res.render('manager', { username: req.user.username, id:req.user.id, users, writeups, loggedIn: loggedIn});
         }
-        
+        else{
+            res.redirect('/dashboard');
+        }
     } else {
     res.redirect('/dashboard');
     }
