@@ -26,9 +26,9 @@ router.get('/dashboard', async (req, res) => {
             res.redirect('/employee');
         } else if (req.user.position == 2) {
             res.redirect('/manager');
-        } else {
-            res.redirect('/login');
         }
+    } else {
+        res.redirect('/login')
     }
 });
 
