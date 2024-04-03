@@ -7,8 +7,13 @@ const passport = require('passport');
 //base routes to render pages
 //These routes will need hooks from a public folder js files
 router.get('/', async (req, res) => {
-    const loggedIn = req.user ? true : false;
-  res.render('homepage', { loggedIn: loggedIn });
+    if (!req.user) {
+        const loggedIn = req.user ? true : false;
+        res.render('homepage', { loggedIn: loggedIn });
+    } else {
+        res.redirect('dashboard');
+    }
+
 });
 
 router.get('/login', async (req, res) => {
