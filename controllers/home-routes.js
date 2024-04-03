@@ -81,26 +81,28 @@ router.get('/employee', async (req, res) => {
 //route for managers.
 router.get(`/manager`, async (req, res) => {
     //the if checks if you have the correct credentials. So anything you want to show must be within the if statement
-    if(req.user.position == 2){
-        const usersData = await User.findAll();
-        //scrub headers from the data
-        const usersClean = usersData.map((user) => user.get({ plain: true }));
-        //filter to only employees
-        const users = usersClean.filter((user) => user.position == 1);
+    if (req.user) {
+        if(req.user.position == 2){
+            const usersData = await User.findAll();
+            //scrub headers from the data
+            const usersClean = usersData.map((user) => user.get({ plain: true }));
+            //filter to only employees
+            const users = usersClean.filter((user) => user.position == 1);
 
-        const writeTemp = await Writeup.findAll({
-            include: [
-                { model: User, attributes: ['username'] },
-                { model: Comment, attributes: ['content', 'user_id', 'writeup_id'],
-                    include: [{model: User,attributes: ['username']}]
-                }
-            ]
-        });
-        const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
-        const writeups = writeClean.filter((writeup) => writeup.acknowledged == false);
+            const writeTemp = await Writeup.findAll({
+                include: [
+                    { model: User, attributes: ['username'] },
+                    { model: Comment, attributes: ['content', 'user_id', 'writeup_id'],
+                        include: [{model: User,attributes: ['username']}]
+                    }
+                ]
+            });
+            const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
+            const writeups = writeClean.filter((writeup) => writeup.acknowledged == false);
 
-   
-    res.render('manager', { username: req.user.username, id:req.user.id, users, writeups});
+            res.render('manager', { username: req.user.username, id:req.user.id, users, writeups});
+        }
+        
     } else {
     res.redirect('/dashboard');
     }
