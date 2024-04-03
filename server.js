@@ -32,6 +32,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(routes);
 
+// Wildcard route to direct users to the homepage
+app.get('*', (req, res) => {
+  res.redirect('/');
+});
 
 sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log('Now listening'));
