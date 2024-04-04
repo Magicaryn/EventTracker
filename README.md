@@ -25,15 +25,15 @@ The application uses **Postgres** to handle storing data, allowing for easy retr
 
   Once you have finished the sign up process, you will need to log in to access any of your data. We will do separate walk throughs to show the flow for each level of employee to show how to access and use the data.
 
-  ### **MANAGER**
-  Manager functionality give you the opportunity to create the write ups and see any of the pending documentations that need to be acknowledged by the employee.
+  ### MANAGER
+  The manager side of the application allows you to view unacknowledged infractions, create new infractions, add comments to existing infractions, and delete infractions in case of mistake.
 
-   ** [VIDEO WALK THROUGH] **
+ ![example demo](examples/manager-example.gif)
 
-  ### **EMPLOYEE**
-  The employee functionality gives you the opportunity to view the documentation that you have been given, provide a comment on the incident, and then acknowledge the documentation was delivered to you.
+  ### EMPLOYEE
+The employee side of the application allows you view unacknowledged infractions and past infractions you have acknowledged. Any unacknowledged infractions give you the opportunity to add comments, questions, or concerns you might have about them.
 
-  ** [VIDEO WALK THROUGH] **
+![example demo](examples/employee-example.gif)
 
 ## License
 This project is licensed under the MIT license. 
