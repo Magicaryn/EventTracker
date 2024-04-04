@@ -1,6 +1,6 @@
 <h5>"{{reason}}" on {{format_date date_created}} from {{manager}}</h5>
 
-<button type="button" class="btn btn-primary open-modal-button" data-toggle="modal" data-target="#" data-index="{{@index}}">
+<button type="button" class="btn btn-primary open-modal-button" style="background-color: rgb(68, 101, 171); border:2.5px solid black" data-toggle="modal" data-target="#" data-index="{{@index}}">
     View
 </button>
 <!-- Modals for each unacknowledged writeup -->
@@ -33,7 +33,7 @@
                     <!-- Delete if they have acknowledged -->
                     <div class="form-group">
                         <label for="textInput">Questions/Comments/Concerns</label>
-                        <input type="text" class="form-control" id="textInput" writeup="{{this.comments.[0].writeup_id}}"> <!-- Writeups.comments.[0] Call the position in the array if we ever work with comments-->
+                        <input type="text" class="form-control" id="textInput"> <!-- Writeups.comments.[0] Call the position in the array if we ever work with comments-->
                     </div>
                 </form>
             </div>
@@ -44,7 +44,7 @@
                 <!-- Can probably add some changes based on whether acknowledged -->
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> <!-- Need data-bs-dismiss to close--> 
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="commentsbtn">Add Comments</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="acknowldgementbtn">Acknowledge</button> <!-- Will need an event listener to submit to a PUT route-->
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="acknowldgementbtn">Acknowledge</button> <!-- Will need an event listener to submit to a PUT route-->
             </div>
         </div>
     </div>
