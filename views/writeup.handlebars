@@ -4,13 +4,14 @@
             <div class="form-content">
                 <div class="form-header">
                     <div>
-                        <h5 class="form-title" id="writeUpformLabel">Write Up</h5>
+                        <h5 class="form-title" style="font-family: 'Roboto Condensed',sans-serif; font-weight:bolder;" id="writeUpformLabel">Write Up</h5>
                         <br>
                         <h6 class="form-title" id="manager">Manager: {{username}}</h6>
                     </div>
                 </div>
                 <div class="form-body">
-                    <div class="form-group">
+                    <div class="row">
+                    <div class="form-group col-sm-7 mb-3">
                         <label for="userDropdown">Select User:</label>
                         <select class="form-control" id="userDropdown">
                             <!-- Populate dropdown with users from the database -->
@@ -19,13 +20,17 @@
                             {{/each}}
                         </select>
                     </div>
-                    <div class="form-group">
+                    </div>
+                    <div class="row">
+                    <div class="form-group col-sm-7 mb-3">
                         <label for="checkbox1">Warning:</label>
                         <input type="radio" id="checkbox1" name="checkbox" value="Warning">
                         <label for="checkbox2">Write Up:</label>
                         <input type="radio" id="checkbox2" name="checkbox" value="Writeup">
                     </div>
-                    <div class="form-group">
+</div>
+                    <div class="row">
+                    <div class="form-group col-sm-7 mb-3">
                         <label for="reasonDropdown">Reason:</label>
                         <select class="form-control" id="reasonDropdown">
                             <option value="Tardiness">Tardiness</option>
@@ -37,13 +42,16 @@
                             <option value="Fraud">Fraud</option>
                         </select>
                     </div>
-                    <div class="form-group">
+</div>
+                    <div class="row">
+                    <div class="form-group col-sm-7 mb-3">
                         <label for="commentsTextarea">Comments:</label>
                         <textarea class="form-control" id="commentsTextArea" rows="3"></textarea>
                     </div>
+                    </div>
                 </div>
                 <div class="footer">
-                    <button type="submit" class="btn btn-primary" id="submitbtn">Submit</button>
+                    <button type="submit" class="btn btn-primary" style="background-color: rgb(68, 101, 171);" id="submitbtn">Submit</button>
                 </div>
             </div>
         </div>
