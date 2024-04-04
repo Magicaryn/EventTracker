@@ -1,9 +1,23 @@
 # EventTracker
  
+## Description
 
- ## Summary
+ This application is a database that helps a company store team member data that is related to documentation, enabling them to easily record and access any team member infractions. 
 
- This application is a database that helps a company store team member data that is related to documentation, enabling them to easily record and access any team member infractions. This application has the ability for both a member of management as well as team members to be able to log in and view these infractions. However, let it be noted that the team members will only be able to access their personal documentation data. Managers will be able to view the data from all the team members. 
+ This application provides functionality to both members of management as well as general team members to be able to catalog and resolve infractions. EventTracker securely stores employee personal documentation data, limiting access to only their own files. Managers, however, will have access to unacknowledged writeups from all the team members. 
+
+ **Features include**:
+
+ - **Employees**:
+     - Provide employees with mobile and secure access to their documented writeups and warnings
+     - Allows employees to respond to infractions directly through the webpage, providing communication routes between general employees and managers
+     - Employees can acknowledge the writeup and it shall be considered resolved and archived
+    - Employees can view current and previous writeups
+- **Managers**: 
+    - Managers can submit reports through a short and intuitive webpage
+    - Recorded infractions will automatically appear on an employee's page
+    - When managers log in, they receive a streamlined webpage highlighting currently unacknowledged writeups
+    - Managers can delete unacknowledged writeups at their discretion 
 
  ## Table of Contents
 - [Packages](#packages)
@@ -14,38 +28,54 @@
 ## Packages
  The event tracker utilizes several different packages in order for it to run. 
  * [Bootstrap](https://getbootstrap.com/)
- * [Passport](https://www.passportjs.org/)
- * [Postgres](https://www.postgresql.org/)
+ * [Passport.js](https://www.passportjs.org/)
+ * [PostgreSQL](https://www.postgresql.org/)
  * [Handlebars](https://handlebarsjs.com/)
 
-The application uses **Postgres** to handle storing data, allowing for easy retrival by the user through the deployed interface. The application uses the **Passport** package to ensure that each employee has access only to their own respectic portals. **Handlebars** is being used as the template engine and last but not least **Bootstrap** is used to create an organized and stylish look.
+The application uses:
+
+-  **PostgreSQL** to handle storing data, allowing for easy retrieval by the user through the deployed interface. 
+- **Passport** package to ensure that each employee has access only to their own respective portals through user authentication. 
+- **Handlebars** is being used as the template engine.
+- **Bootstrap** is used to create an organized, responsive, and stylish interface.
 
  ## Usage
-  When you first access the page you have the option to log in or sign up. Any first time user will need to sign up to create their account in the database. This means, as an employer, it would be part of the hiring process to get the employee signed up to ensure smooth functionality down the road. 
 
-  Once you have finished the sign up process, you will need to log in to access any of your data. We will do separate walk throughs to show the flow for each level of employee to show how to access and use the data.
+- **First-time Users**:
+    - First time users will need to create an account with a valid email, a unique username, a 8 character password, and a response whether they are a manager
+    - For employers, registering accounts for employees in the onboarding process can ensure smooth functionality down the road. 
 
-  ### **MANAGER**
-  Manager functionality give you the opportunity to create the write ups and see any of the pending documentations that need to be acknowledged by the employee.
+    - Once a you will need to log in to access any of your data. 
+        - We will do separate walkthroughs to show the flow for each level of employee to show how to access and use the data.
 
-   ** [VIDEO WALK THROUGH] **
+- **Returning Users**:
+
+    - Visit the "Login" page to sign in with your registered username and password
+    - You will be redirected to your appropriate webpage with appropriate information and functionality 
 
   ### **EMPLOYEE**
   The employee functionality gives you the opportunity to view the documentation that you have been given, provide a comment on the incident, and then acknowledge the documentation was delivered to you.
 
   ** [VIDEO WALK THROUGH] **
 
+  ### **MANAGER**
+  Manager functionality give you the opportunity to create the write ups and see any of the pending documentations that need to be acknowledged by the employee.
+
+   ** [VIDEO WALK THROUGH] **
+
+
+
 ## License
 This project is licensed under the MIT license. 
  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
  ## Credits
-This application was created by Drew Hermanson, Another Rodriguez-Ortiz and Caryn Behnke. Any questions, comments, concerns, or ideas for improvement please feel free to reach out to Behnke.ca@gmail.com
+This application was created by [Drew Hermanson](https://github.com/drewhermanson), [Anthony Rodriguez-Ortiz](https://github.com/anthonyero) and [Caryn Behnke](https://github.com/Magicaryn). Any questions, comments, concerns, or ideas for improvement please feel free to reach out to Behnke.ca@gmail.com
 
-## Link to deployed application
+## Link to the deployed application
 
 https://eventtracker.onrender.com
 
-## Link to github repository
+## Link to the GitHub repository
 
 https://github.com/Magicaryn/EventTracker
