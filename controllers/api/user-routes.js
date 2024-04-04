@@ -133,5 +133,18 @@ router.put('/acknow', async (req, res) => {
     }
 });
 
+router.delete('/delete', async (req, res) => {
+    try {
+        const deleteData = await Writeup.destroy({
+            where: {
+                id: req.body.writeup_id
+            }
+        });
+        res.status(202).json(deleteData);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
+
 
 module.exports = router;
