@@ -2,43 +2,6 @@ const router = require('express').Router();
 const { User, Writeup, Comment } = require('../../models');
 const passport = require('passport');
 
-//route to check for all the users in the database
-router.get('/check', async (req, res) => {
-        const userData = await User.findAll();
-        res.status(200).json(userData);
-});
-
-router.get('/checkwriteups', async (req, res) => {
-    try {
-        const writeups = await Writeup.findAll();
-        res.status(200).json(writeups);
-    } catch (err) {
-        res.status(402).json(err);
-    }
-});
-
-router.get('/checkagain', async (req, res) => {
-    const usersData = await User.findAll();
-        //scrub headers from the data
-        const usersClean = usersData.map((user) => user.get({ plain: true }));
-        //filter to only employees
-        const users = usersClean.filter((user) => user.position == 1);
-
-        const writeTemp = await Writeup.findAll({
-            include: [
-                { model: User, attributes: ['username'] },
-                { model: Comment, attributes: ['content', 'user_id', 'writeup_id'],
-                    include: [{model: User,attributes: ['username']}]
-                }
-            ]
-        });
-        const writeClean = writeTemp.map((writeup) => writeup.get({ plain: true }));
-        const writeups = writeClean.filter((writeup) => writeup.acknowledged == false);
-
-
-    res.send({users, writeups});
-});
-
 //login route that redirects to employee or manager page based on user.position
 router.post('/login', passport.authenticate('local'), async (req, res) => {
     //17-26 were only working in insomnia and i dont use this anymore but it shouldt stop anything from working
@@ -81,9 +44,6 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-//req.user
-//req.user.username = username of current logged in user
-//req.user.id .password .email .position
 //route for logging out the user
 router.post('/logout', (req, res) => {
     //if you are logged in then it will log you out and send you to the homepage
