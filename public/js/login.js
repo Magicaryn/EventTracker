@@ -42,26 +42,21 @@ const signupFormHandler = async (event) => {
         });
         // If successful, redirect the browser to the login page. Signing up does not log you in.
         if (signup.ok) {
-            alert('Account created!.');
-            document.location.replace('/login');
+            document.querySelector('.alert').innerHTML = 
+            `<div class="alert alert-success" role="alert">
+            Account created! <a href="/login" class="alert-link">Login</a>.
+          </div>`;
         }
         else {
-            alert('Failed to sign up.');
+            document.querySelector('.alert').innerHTML = `<div class="alert alert-danger" role="alert">
+            Error creating account. Check that your password is at least 8 characters. Please try again.
+          </div>`;
         }
     }
   
 
     
 }
-
-//insomnia test object
-// {
-//     username: 'testUser',
-//     email: 'test@example.com',
-//     password: 'testPassword',
-//     position: 'testPosition'
-// };
-
 
 //if statements are needed since this document is on both the login and signup page. 
 const loginForm = document.querySelector('.login-form');
