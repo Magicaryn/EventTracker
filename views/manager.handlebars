@@ -11,14 +11,14 @@
 
     <div class="row">
         <div class="col-12 col-sm-3 rounded">
-                <h2 style="margin-bottom: 30px;">Things to do: </h2>
+                <h2 style="font-family: 'Roboto Condensed',sans-serif; font-weight:bolder; margin-bottom: 30px;">Things to do: </h2>
             <a href="/writeup" class="btn btn-primary" style="background-color: rgb(68, 101, 171);" id="#writeUpForm">
                 Create Write Up
             </a>
         </div>
 
         <!-- Writeups that have not been acknowledged -->
-        <div class="col-12 col-sm-5 rounded">
+        <div class="col-12 col-sm-6 rounded">
             {{#if writeups}}
             {{#each writeups}}
             <p>{{this.user.username}} has not acknowledged the infraction {{this.type}} for {{this.reason}}</p>
