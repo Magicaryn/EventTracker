@@ -54,7 +54,7 @@ The application uses:
     - Visit the "Login" page to sign in with your registered username and password
     - You will be redirected to your appropriate webpage with appropriate information and functionality 
 
-  ### EMPLOYEE
+### EMPLOYEE
 The employee side of the application allows you view unacknowledged infractions and past infractions you have acknowledged. Any unacknowledged infractions give you the opportunity to add comments, questions, or concerns you might have about them.
 
 ![example demo](examples/employee-example.gif)
