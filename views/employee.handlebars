@@ -2,6 +2,8 @@
 
 <p user="{{id}}">Welcome, {{username}}</p>
 
+<div class="alert"></div>
+
 <div class="writeUp">
     <h1>Counseling statements</h1>
     <h3>Need attention:</h3>
@@ -42,14 +44,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 const modalId = this.closest(".modal").id;
                 const textInput = document.querySelector(`#${modalId} #textInput`);
                 const content = textInput.value;
-                //const writeup_id = parseInt(modalId.split("WriteUp")[1]) + 1;
                 const writeup_id_string = this.closest(".modal").title;
-                console.log(writeup_id_string);
                 const writeup_id = parseInt(this.closest(".modal").title);
                 const user_id = parseInt(document.querySelector("p[user]").getAttribute("user"));
+                const alert = `<div class="alert alert-danger" role="alert">Failed to add comment. Try again.</div>`;
 
-                console.log(content, writeup_id, user_id);
-                
                 if (content && user_id && writeup_id) {   
                 const response = await fetch('/api/users/comment', {         
                 method: 'POST',
@@ -59,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (response.ok) {
                     window.location.replace('/dashboard');
                 } else {
-                    alert('Failed to post your comment, please try again')
+                    document.querySelector(".alert").innerHTML = alert;
                 }
             }
         });
@@ -77,11 +76,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 const writeup_id = parseInt(this.closest(".modal").title);
                 const user_id = parseInt(document.querySelector("p[user]").getAttribute("user"));
                 const acknowledged = true;
+                const fail = `<div class="alert alert-danger" role="alert">Failed to acknowledge. Try again.</div>`;
 
-                console.log(content, writeup_id, user_id);
-                //debugger;
                 if (writeup_id) {   
-                    //debugger;
                 const response = await fetch('/api/users/acknow', {         
                 method: 'PUT',
                 body: JSON.stringify({writeup_id, acknowledged }),
@@ -90,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (response.ok) {
                     window.location.replace('/dashboard');
                 } else {
-                    alert('Failed to post acknowledgement, please try again')
+                    document.querySelector(".alert").innerHTML = fail;
                 }
             }
         });
