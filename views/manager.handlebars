@@ -7,6 +7,7 @@
     Create Write Up
 </a>
 
+<div class="alert"></div>
 <!-- Writeups that have not been acknowledged -->
 {{#if writeups}}
 {{#each writeups}}
@@ -95,14 +96,13 @@ document.addEventListener("DOMContentLoaded", function() {
     const commentButtons = document.querySelectorAll(".modal-footer #commentsbtn");
     commentButtons.forEach(function(button) {
         button.addEventListener("click", async function(event) {
+            
             const modalId = this.closest(".modal").id;
             const textInput = document.querySelector(`#${modalId} #textInput`);
             const content = textInput.value;
-
             const writeup_id = parseInt(this.closest(".modal").title);
             const user_id = parseInt(document.querySelector("p[user]").getAttribute("user"));
-
-            console.log(content, user_id, writeup_id);
+            const alert = `<div class="alert alert-danger" role="alert">Failed to add comment. Try again.</div>`;
 
             if (content && user_id && writeup_id) {
                 const response = await fetch('/api/users/comment', {
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (response.ok) {
                     window.location.replace('/dashboard');
                 } else {
-                    alert('Failed to post Writeup, please try again')
+                    document.querySelector(".alert").innerHTML = alert;
                 }
             }
         });

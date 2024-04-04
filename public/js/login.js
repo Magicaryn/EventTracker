@@ -15,11 +15,12 @@ const loginFormHandler = async (event) => {
         });
         // If successful, redirect the browser to the dashboard page which redirects to the correct page based on user.position
         if (login.ok) {
-            alert('Logged in!');
             document.location.replace('/dashboard');
         } else {
-            alert('Failed to log in.');
-            document.location.replace('/login');
+            document.querySelector('.alert').innerHTML = 
+            `<div class="alert alert-danger" role="alert">
+            Login failed. Try again.
+          </div>`;
         }
     }
 }
