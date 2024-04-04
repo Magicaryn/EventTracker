@@ -45,6 +45,7 @@ The application uses:
     - First time users will need to create an account with a valid email, a unique username, a 8 character password, and a response whether they are a manager
     - For employers, registering accounts for employees in the onboarding process can ensure smooth functionality down the road. 
 
+
     - Once a you will need to log in to access any of your data. 
         - We will do separate walkthroughs to show the flow for each level of employee to show how to access and use the data.
 
@@ -53,16 +54,15 @@ The application uses:
     - Visit the "Login" page to sign in with your registered username and password
     - You will be redirected to your appropriate webpage with appropriate information and functionality 
 
-  ### **EMPLOYEE**
-  The employee functionality gives you the opportunity to view the documentation that you have been given, provide a comment on the incident, and then acknowledge the documentation was delivered to you.
+### EMPLOYEE
+The employee side of the application allows you view unacknowledged infractions and past infractions you have acknowledged. Any unacknowledged infractions give you the opportunity to add comments, questions, or concerns you might have about them.
 
-  ** [VIDEO WALK THROUGH] **
+![example demo](examples/employee-example.gif)
 
-  ### **MANAGER**
-  Manager functionality give you the opportunity to create the write ups and see any of the pending documentations that need to be acknowledged by the employee.
+  ### MANAGER
+  The manager side of the application allows you to view unacknowledged infractions, create new infractions, add comments to existing infractions, and delete infractions in case of mistake.
 
-   ** [VIDEO WALK THROUGH] **
-
+ ![example demo](examples/manager-example.gif)
 
 
 ## License
