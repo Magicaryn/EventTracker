@@ -1,8 +1,24 @@
 <div class="container-sm">
 
+<p user="{{id}}">Welcome, {{username}}</p>
+
+<div class="alert"></div>
+
+<div class="writeUp">
+    <h1>Counseling statements</h1>
+    <h3>Need attention:</h3>
+    <div class="writeupList">
+    {{#each writeups as |writeup| }}
+    {{#unless acknowledged}}
+ 
+        {{> writeup-modal-unacknowledged-partial}}
+    {{/unless}}
+    {{/each}}
+
     <div class="col-12 col-md-10 p-2 rounded text-center" style="border:6px solid rgb(68, 101, 171)">
         <h1 style="font-family: 'Roboto Condensed',sans-serif; font-weight:bolder; text-decoration:underline" user="{{id}}">
             Welcome, {{username}}</h1>
+
     </div>
     <div class="row">
         <div class="col-12 col-sm-5 rounded">
@@ -22,79 +38,73 @@
             {{/each}}
         </div>
     </div>
-
-
-    <script>
-        document.addEventListener("click", function (event) {
-            if (event.target.classList.contains("open-modal-button")) {
-                var index = event.target.getAttribute("data-index");
-                var modalId = "WriteUp" + index;
-
-                $('#' + modalId).modal('show');
-            }
-
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const commentButtons = document.querySelectorAll(".modal-footer #commentsbtn");
-            commentButtons.forEach(function (button) {
-                button.addEventListener("click", async function (event) {
-                    const modalId = this.closest(".modal").id;
-                    const textInput = document.querySelector(`#${modalId} #textInput`);
-                    const content = textInput.value;
-                    //const writeup_id = parseInt(modalId.split("WriteUp")[1]) + 1;
-                    const writeup_id_string = this.closest(".modal").title;
-                    console.log(writeup_id_string);
-                    const writeup_id = parseInt(this.closest(".modal").title);
-                    const user_id = parseInt(document.querySelector("p[user]").getAttribute("user"));
-
-                    console.log(content, writeup_id, user_id);
-
-                    if (content && user_id && writeup_id) {
-                        const response = await fetch('/api/users/comment', {
-                            method: 'POST',
-                            body: JSON.stringify({ content, user_id, writeup_id }),
-                            headers: { 'Content-Type': 'application/json' },
-                        });
-                        if (response.ok) {
-                            window.location.replace('/dashboard');
-                        } else {
-                            alert('Failed to post your comment, please try again')
-                        }
-                    }
-                });
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const commentButtons = document.querySelectorAll(".modal-footer #acknowldgementbtn");
-            commentButtons.forEach(function (button) {
-                button.addEventListener("click", async function (event) {
-                    const modalId = this.closest(".modal").id;
-                    const textInput = document.querySelector(`#${modalId} #textInput`);
-                    const content = textInput.value;
-                    // const writeup_id = parseInt(modalId.split("WriteUp")[1]) + 1;
-                    const writeup_id = parseInt(this.closest(".modal").title);
-                    const user_id = parseInt(document.querySelector("p[user]").getAttribute("user"));
-                    const acknowledged = true;
-
-                    console.log(content, writeup_id, user_id);
-                    //debugger;
-                    if (writeup_id) {
-                        //debugger;
-                        const response = await fetch('/api/users/acknow', {
-                            method: 'PUT',
-                            body: JSON.stringify({ writeup_id, acknowledged }),
-                            headers: { 'Content-Type': 'application/json' },
-                        });
-                        if (response.ok) {
-                            window.location.replace('/dashboard');
-                        } else {
-                            alert('Failed to post acknowledgement, please try again')
-                        }
-                    }
-                });
-            });
-        });
-    </script>
 </div>
+
+<script>
+    document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("open-modal-button")) {
+        var index = event.target.getAttribute("data-index");
+        var modalId = "WriteUp" + index;
+        
+        $('#' + modalId).modal('show');      
+    }
+    
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+        const commentButtons = document.querySelectorAll(".modal-footer #commentsbtn");
+        commentButtons.forEach(function(button) {
+            button.addEventListener("click", async function(event) {
+                const modalId = this.closest(".modal").id;
+                const textInput = document.querySelector(`#${modalId} #textInput`);
+                const content = textInput.value;
+                const writeup_id_string = this.closest(".modal").title;
+                const writeup_id = parseInt(this.closest(".modal").title);
+                const user_id = parseInt(document.querySelector("p[user]").getAttribute("user"));
+                const alert = `<div class="alert alert-danger" role="alert">Failed to add comment. Try again.</div>`;
+
+                if (content && user_id && writeup_id) {   
+                const response = await fetch('/api/users/comment', {         
+                method: 'POST',
+                body: JSON.stringify({ content, user_id, writeup_id }),
+                headers: { 'Content-Type': 'application/json' },
+                });
+                if (response.ok) {
+                    window.location.replace('/dashboard');
+                } else {
+                    document.querySelector(".alert").innerHTML = alert;
+                }
+            }
+        });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+        const commentButtons = document.querySelectorAll(".modal-footer #acknowldgementbtn");
+        commentButtons.forEach(function(button) {
+            button.addEventListener("click", async function(event) {
+                const modalId = this.closest(".modal").id;
+                const textInput = document.querySelector(`#${modalId} #textInput`);
+                const content = textInput.value;
+                // const writeup_id = parseInt(modalId.split("WriteUp")[1]) + 1;
+                const writeup_id = parseInt(this.closest(".modal").title);
+                const user_id = parseInt(document.querySelector("p[user]").getAttribute("user"));
+                const acknowledged = true;
+                const fail = `<div class="alert alert-danger" role="alert">Failed to acknowledge. Try again.</div>`;
+
+                if (writeup_id) {   
+                const response = await fetch('/api/users/acknow', {         
+                method: 'PUT',
+                body: JSON.stringify({writeup_id, acknowledged }),
+                headers: { 'Content-Type': 'application/json' },
+                });
+                if (response.ok) {
+                    window.location.replace('/dashboard');
+                } else {
+                    document.querySelector(".alert").innerHTML = fail;
+                }
+            }
+        });
+    });
+});
+</script>

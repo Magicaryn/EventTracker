@@ -7,6 +7,7 @@
     Create Write Up
 </a>
 
+<div class="alert"></div>
 <!-- Writeups that have not been acknowledged -->
 {{#if writeups}}
 {{#each writeups}}
@@ -44,6 +45,7 @@
                 </form>
             </div>
             <div class="modal-footer">
+                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="deletebtns">Delete</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="commentsbtn">Add Comments</button>
             </div>
@@ -55,6 +57,31 @@
 
 
 <script>
+// Delete button 
+document.addEventListener("DOMContentLoaded", function() {
+    const deleteButtons = document.querySelectorAll(".modal-footer #deletebtns");
+    deleteButtons.forEach(function(button) {
+        button.addEventListener("click", async function(event) {
+
+            const writeup_id = parseInt(this.closest(".modal").title);
+
+            if (writeup_id) {
+                const response = await fetch('/api/users/delete', {
+                    method: 'DELETE',
+                    body: JSON.stringify({ writeup_id }),
+                    headers: { 'Content-Type': 'application/json' },
+                });
+
+                if (response.ok) {
+                    window.location.replace('/dashboard');
+                } else {
+                    alert('Failed to delete Writeup, please try again')
+                }
+            }
+        });
+    });
+});
+
     document.addEventListener("click", function(event) {
     if (event.target.classList.contains("open-modal-button")) {
         var index = event.target.getAttribute("data-index");
@@ -69,14 +96,13 @@ document.addEventListener("DOMContentLoaded", function() {
     const commentButtons = document.querySelectorAll(".modal-footer #commentsbtn");
     commentButtons.forEach(function(button) {
         button.addEventListener("click", async function(event) {
+            
             const modalId = this.closest(".modal").id;
             const textInput = document.querySelector(`#${modalId} #textInput`);
             const content = textInput.value;
-
             const writeup_id = parseInt(this.closest(".modal").title);
             const user_id = parseInt(document.querySelector("p[user]").getAttribute("user"));
-
-            console.log(content, user_id, writeup_id);
+            const alert = `<div class="alert alert-danger" role="alert">Failed to add comment. Try again.</div>`;
 
             if (content && user_id && writeup_id) {
                 const response = await fetch('/api/users/comment', {
@@ -88,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (response.ok) {
                     window.location.replace('/dashboard');
                 } else {
-                    alert('Failed to post Writeup, please try again')
+                    document.querySelector(".alert").innerHTML = alert;
                 }
             }
         });
